@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "com.arun.controller" })
+@ComponentScan(basePackages = { "com.arun.controller", "com.arun.service" })
 public class SpringBootMain {
 
 	public static void main(String[] args) {
