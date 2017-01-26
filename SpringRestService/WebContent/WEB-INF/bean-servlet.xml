@@ -8,14 +8,19 @@
 
 	<context:component-scan base-package="com.arun.controller"></context:component-scan>
 	<mvc:annotation-driven />
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="prefix">
-			<value>/WEB-INF/pages/</value>
-		</property>
-		<property name="suffix">
-			<value>.jsp</value>
-		</property>
+
+	<bean class="com.arun.service.CountryService"></bean>
+	<bean class="com.arun.dao.CountryDAO">
+		<constructor-arg ref="dataSource"></constructor-arg>
 	</bean>
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/tcrmd00"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="root"></property>
+	</bean>
+
 
 </beans>
