@@ -9,4 +9,6 @@ public interface IHelloDAO {
 	List<Country> getCountry();
 
 	Country getDetailsOfCountry(String country);
+	
+	boolean deleteCountry(String country);
 }

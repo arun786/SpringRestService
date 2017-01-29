@@ -8,4 +8,6 @@ public interface IHelloService {
 	List<Country> getCountry();
 	
 	Country getDetailsOfCountry(String country);
+	
+	public boolean deleteCountry(String country);
 }

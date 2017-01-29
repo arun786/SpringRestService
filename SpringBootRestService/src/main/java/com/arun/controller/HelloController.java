@@ -32,4 +32,9 @@ public class HelloController {
 	public Country getDetailsOfCountryViaGetRequest(@RequestParam(value = "country") String country){
 		return helloService.getDetailsOfCountry(country);
 	}
+	
+	@RequestMapping(value="/delete", method = RequestMethod.DELETE)
+	public boolean deleteCountry(@RequestBody(required=true) String country){
+		return helloService.deleteCountry(country);
+	}
 }

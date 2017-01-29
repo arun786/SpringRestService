@@ -16,6 +16,7 @@ import com.arun.mapper.CountryMapper;
 public class HelloDAO extends JdbcDaoSupport implements IHelloDAO {
 	private final String SQL_Query = "select id, name, capital, currency from country";
 	private final String SQL_QUERY_GET = "select id, name, capital, currency from country where name = ?";
+	private final String SQL_QUERY_DELETE = "delete from country where name = ?";
 
 	@Autowired
 	private DataSource dataSource;
@@ -33,5 +34,11 @@ public class HelloDAO extends JdbcDaoSupport implements IHelloDAO {
 	@Override
 	public Country getDetailsOfCountry(String country) {
 		return getJdbcTemplate().queryForObject(SQL_QUERY_GET, new Object[] { country }, new CountryMapper());
+	}
+
+	@Override
+	public boolean deleteCountry(String country) {
+		int flag = getJdbcTemplate().update(SQL_QUERY_DELETE, country);
+		return flag == 1 ? true : false;
 	}
 }

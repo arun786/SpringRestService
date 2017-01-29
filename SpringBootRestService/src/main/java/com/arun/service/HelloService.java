@@ -23,4 +23,9 @@ public class HelloService implements IHelloService {
 	public Country getDetailsOfCountry(String country) {
 		return iHelloDAO.getDetailsOfCountry(country);
 	}
+
+	@Override
+	public boolean deleteCountry(String country) {
+		return iHelloDAO.deleteCountry(country);
+	}
 }
