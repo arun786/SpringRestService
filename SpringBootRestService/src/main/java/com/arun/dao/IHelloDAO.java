@@ -1,9 +1,10 @@
-package com.arun.service;
+package com.arun.dao;
 
 import java.util.List;
 
 import com.arun.bean.Country;
 
-public interface IHelloService {
+public interface IHelloDAO {
+
 	List<Country> getCountry();
 }
