@@ -18,4 +18,9 @@ public class HelloService implements IHelloService {
 		List<Country> lst = iHelloDAO.getCountry();
 		return lst;
 	}
+
+	@Override
+	public Country getDetailsOfCountry(String country) {
+		return iHelloDAO.getDetailsOfCountry(country);
+	}
 }

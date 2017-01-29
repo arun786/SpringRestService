@@ -6,4 +6,6 @@ import com.arun.bean.Country;
 
 public interface IHelloService {
 	List<Country> getCountry();
+	
+	Country getDetailsOfCountry(String country);
 }

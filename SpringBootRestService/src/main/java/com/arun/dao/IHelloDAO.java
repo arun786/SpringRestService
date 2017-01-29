@@ -7,4 +7,6 @@ import com.arun.bean.Country;
 public interface IHelloDAO {
 
 	List<Country> getCountry();
+
+	Country getDetailsOfCountry(String country);
 }
