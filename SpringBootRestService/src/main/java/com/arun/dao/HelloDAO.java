@@ -17,6 +17,7 @@ public class HelloDAO extends JdbcDaoSupport implements IHelloDAO {
 	private final String SQL_Query = "select id, name, capital, currency from country";
 	private final String SQL_QUERY_GET = "select id, name, capital, currency from country where name = ?";
 	private final String SQL_QUERY_DELETE = "delete from country where name = ?";
+	private final String UPDATE_QUERY = "insert into country (id,name,capital,currency) values(?,?,?,?)";
 
 	@Autowired
 	private DataSource dataSource;
@@ -39,6 +40,13 @@ public class HelloDAO extends JdbcDaoSupport implements IHelloDAO {
 	@Override
 	public boolean deleteCountry(String country) {
 		int flag = getJdbcTemplate().update(SQL_QUERY_DELETE, country);
+		return flag == 1 ? true : false;
+	}
+
+	@Override
+	public boolean addCountry(Country country) {
+		int flag = getJdbcTemplate().update(UPDATE_QUERY, country.getId(), country.getName(), country.getCapital(),
+				country.getCurrency());
 		return flag == 1 ? true : false;
 	}
 }

@@ -10,4 +10,5 @@ public interface IHelloService {
 	Country getDetailsOfCountry(String country);
 	
 	public boolean deleteCountry(String country);
+	boolean addCountry(Country country);
 }

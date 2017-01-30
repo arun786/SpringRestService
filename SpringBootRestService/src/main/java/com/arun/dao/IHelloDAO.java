@@ -11,4 +11,6 @@ public interface IHelloDAO {
 	Country getDetailsOfCountry(String country);
 	
 	boolean deleteCountry(String country);
+	
+	boolean addCountry(Country country);
 }

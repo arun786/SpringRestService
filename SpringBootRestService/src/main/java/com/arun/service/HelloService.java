@@ -28,4 +28,10 @@ public class HelloService implements IHelloService {
 	public boolean deleteCountry(String country) {
 		return iHelloDAO.deleteCountry(country);
 	}
+
+	@Override
+	public boolean addCountry(Country country) {
+		// TODO Auto-generated method stub
+		return iHelloDAO.addCountry(country);
+	}
 }
