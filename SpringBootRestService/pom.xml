@@ -42,4 +42,5 @@
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 	</dependencies>
+	<packaging>war</packaging>
 </project>
