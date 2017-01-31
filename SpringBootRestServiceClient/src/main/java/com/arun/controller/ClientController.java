@@ -2,9 +2,7 @@ package com.arun.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,6 +31,14 @@ public class ClientController {
 		final String url = "http://localhost:8080/restservice/get/country?country={country}";
 		RestTemplate restTemplate = new RestTemplate();
 		return restTemplate.getForObject(url, String.class, country);
+	}
+
+	@RequestMapping(value = "/deleteCountry", method = RequestMethod.DELETE)
+	public boolean deleteCountry(@RequestBody(required = true) String country) {
+		final String url = "http://localhost:8080/restservice/delete";
+		RestTemplate restTemplate = new RestTemplate();
+		restTemplate.delete(url, country);
+		return true;
 	}
 
 }
