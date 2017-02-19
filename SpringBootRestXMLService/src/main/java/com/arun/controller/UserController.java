@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.arun.bean.ErrorMessage;
 import com.arun.bean.Response;
@@ -79,6 +81,17 @@ public class UserController {
 			errorMessage.setErrorcode(HttpStatus.OK.value());
 			errorMessage.setErrordesc(HttpStatus.OK);
 			return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.OK);
+		}
+		return new ResponseEntity<ErrorMessage>(new ErrorMessage("Unable to create a user"), HttpStatus.CONFLICT);
+	}
+
+	@RequestMapping(value = "/users/", method = RequestMethod.PUT)
+	public ResponseEntity<?> createAUserWithAResponse(@RequestBody User user, UriComponentsBuilder ucBuilder) {
+		String response = userService.createAUser(user);
+		if (response.equals("yes")) {
+			HttpHeaders header = new HttpHeaders();
+			header.setLocation(ucBuilder.path("/user/{name}").buildAndExpand(user.getName()).toUri());
+			return new ResponseEntity<String>(header, HttpStatus.OK);
 		}
 		return new ResponseEntity<ErrorMessage>(new ErrorMessage("Unable to create a user"), HttpStatus.CONFLICT);
 	}
