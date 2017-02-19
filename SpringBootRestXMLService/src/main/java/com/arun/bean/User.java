@@ -1,6 +1,10 @@
 package com.arun.bean;
 
+import org.springframework.http.HttpStatus;
+
 public class User {
+	private int errorcode;
+	private HttpStatus errordesc;
 	private String id;
 	private String name;
 	private String age;
@@ -38,6 +42,22 @@ public class User {
 
 	public void setAge(String age) {
 		this.age = age;
+	}
+
+	public int getErrorcode() {
+		return errorcode;
+	}
+
+	public void setErrorcode(int errorcode) {
+		this.errorcode = errorcode;
+	}
+
+	public HttpStatus getErrordesc() {
+		return errordesc;
+	}
+
+	public void setErrordesc(HttpStatus errordesc) {
+		this.errordesc = errordesc;
 	}
 
 }

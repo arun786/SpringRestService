@@ -24,6 +24,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 
 	private final String sql_query = "select id, name, age from user";
 	private final String SQL_GET_QUERY = "select id, name, age from user where name = ?";
+	private final String SQL_GET_QUERY_Id = "select id, name, age from user where id = ?";
 
 	@Autowired
 	private DataSource dataSource;
@@ -43,6 +44,11 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 	public List<User> findAUser(String name) {
 		List<User> user = getJdbcTemplate().query(SQL_GET_QUERY, new Object[] { name }, new UserRowMapper());
 		return user;
+	}
+
+	@Override
+	public User findAUserBasedOnId(String id) {
+		return getJdbcTemplate().queryForObject(SQL_GET_QUERY_Id, new Object[] { id }, new UserRowMapper());
 	}
 
 }
