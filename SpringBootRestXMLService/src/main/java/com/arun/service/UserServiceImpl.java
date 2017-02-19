@@ -30,4 +30,10 @@ public class UserServiceImpl implements UserService {
 		return userDAO.findAUserBasedOnId(id);
 	}
 
+	@Override
+	public String createAUser(User user) {
+		// TODO Auto-generated method stub
+		return userDAO.createAUser(user);
+	}
+
 }

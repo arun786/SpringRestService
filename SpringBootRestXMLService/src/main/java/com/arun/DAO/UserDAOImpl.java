@@ -25,6 +25,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 	private final String sql_query = "select id, name, age from user";
 	private final String SQL_GET_QUERY = "select id, name, age from user where name = ?";
 	private final String SQL_GET_QUERY_Id = "select id, name, age from user where id = ?";
+	private final String SQL_INSERT_QUERY = "insert into user (name, age) values(?,?)";
 
 	@Autowired
 	private DataSource dataSource;
@@ -49,6 +50,12 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 	@Override
 	public User findAUserBasedOnId(String id) {
 		return getJdbcTemplate().queryForObject(SQL_GET_QUERY_Id, new Object[] { id }, new UserRowMapper());
+	}
+
+	@Override
+	public String createAUser(User user) {
+		int result = getJdbcTemplate().update(SQL_INSERT_QUERY, user.getName(), user.getAge());
+		return result == 1 ? "yes" : "no";
 	}
 
 }
