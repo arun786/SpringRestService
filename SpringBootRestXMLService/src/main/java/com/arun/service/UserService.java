@@ -14,5 +14,6 @@ import com.arun.bean.User;
 public interface UserService {
 
 	List<User> findAllUser();
+	List<User> findAUser(String name);
 
 }

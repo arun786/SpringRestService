@@ -6,4 +6,5 @@ import com.arun.bean.User;
 
 public interface UserDAO {
 	List<User> findAllUser();
+	List<User> findAUser(String name);
 }
