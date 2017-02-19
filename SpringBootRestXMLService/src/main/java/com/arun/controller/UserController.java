@@ -96,6 +96,23 @@ public class UserController {
 		return new ResponseEntity<ErrorMessage>(new ErrorMessage("Unable to create a user"), HttpStatus.CONFLICT);
 	}
 
+	@RequestMapping(value = "/user/update/{id}", method=RequestMethod.POST)
+	public ResponseEntity<?> updateUser(@PathVariable("id") String id, @RequestBody User user) {
+		User existingUser = userService.findAUserBasedOnId(id);
+
+		existingUser.setAge(user.getAge());
+		existingUser.setName(user.getName());
+		int result = userService.updateUser(id, existingUser);
+		/*User UpdateUser = userService.findAUserBasedOnId(id);*/
+		List<User> lstUser = new ArrayList<>();
+		lstUser.add(existingUser);
+		Response response = new Response();
+		response.setErrorcode(HttpStatus.OK.value());
+		response.setErrordesc(HttpStatus.OK);
+		response.setUsers(lstUser);
+		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+
 	public UserService getUserService() {
 		return userService;
 	}
