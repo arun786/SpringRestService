@@ -14,4 +14,8 @@ public interface UserDAO {
 	String createAUser(User user);
 
 	int updateUser(String id, User user);
+
+	int deleteUserBasedOnId(String id);
+
+	int deleteUserBasedOnName(String name);
 }

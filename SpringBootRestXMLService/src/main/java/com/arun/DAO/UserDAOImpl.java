@@ -27,6 +27,8 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 	private final String SQL_GET_QUERY_Id = "select id, name, age from user where id = ?";
 	private final String SQL_INSERT_QUERY = "insert into user (name, age) values(?,?)";
 	private final String UPDATE_QUERY = "update user set name = ?, age = ? where id = ?";
+	private final String DELETE_QUERY_ID = "delete from user where id = ?";
+	private final String DELETE_QUERY_NAME = "delete from user where name = ?";
 
 	@Autowired
 	private DataSource dataSource;
@@ -63,6 +65,16 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 	public int updateUser(String id, User user) {
 		int response = getJdbcTemplate().update(UPDATE_QUERY, user.getName(), user.getAge(), user.getId());
 		return response;
+	}
+
+	@Override
+	public int deleteUserBasedOnId(String id) {
+		return getJdbcTemplate().update(DELETE_QUERY_ID, id);
+	}
+
+	@Override
+	public int deleteUserBasedOnName(String name) {
+		return getJdbcTemplate().update(DELETE_QUERY_NAME, name);
 	}
 
 }

@@ -14,9 +14,17 @@ import com.arun.bean.User;
 public interface UserService {
 
 	List<User> findAllUser();
+
 	List<User> findAUser(String name);
+
 	User findAUserBasedOnId(String id);
+
 	String createAUser(User user);
+
 	int updateUser(String id, User user);
+
+	int deleteUserBasedOnId(String id);
+
+	int deleteUserBasedOnName(String name);
 
 }

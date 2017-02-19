@@ -40,4 +40,14 @@ public class UserServiceImpl implements UserService {
 		return userDAO.updateUser(id, user);
 	}
 
+	@Override
+	public int deleteUserBasedOnId(String id) {
+		return userDAO.deleteUserBasedOnId(id);
+	}
+
+	@Override
+	public int deleteUserBasedOnName(String name) {
+		return userDAO.deleteUserBasedOnName(name);
+	}
+
 }

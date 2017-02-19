@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -96,21 +97,47 @@ public class UserController {
 		return new ResponseEntity<ErrorMessage>(new ErrorMessage("Unable to create a user"), HttpStatus.CONFLICT);
 	}
 
-	@RequestMapping(value = "/user/update/{id}", method=RequestMethod.POST)
+	@RequestMapping(value = "/user/update/{id}", method = RequestMethod.POST)
 	public ResponseEntity<?> updateUser(@PathVariable("id") String id, @RequestBody User user) {
 		User existingUser = userService.findAUserBasedOnId(id);
 
 		existingUser.setAge(user.getAge());
 		existingUser.setName(user.getName());
 		int result = userService.updateUser(id, existingUser);
-		/*User UpdateUser = userService.findAUserBasedOnId(id);*/
+		User UpdateUser = userService.findAUserBasedOnId(id);
 		List<User> lstUser = new ArrayList<>();
-		lstUser.add(existingUser);
+		lstUser.add(UpdateUser);
 		Response response = new Response();
 		response.setErrorcode(HttpStatus.OK.value());
 		response.setErrordesc(HttpStatus.OK);
 		response.setUsers(lstUser);
 		return new ResponseEntity<Response>(response, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteUserBasedOnId(@PathVariable("id") String id) {
+		User user = null;
+		ErrorMessage message = new ErrorMessage("User deleted");
+		try {
+			user = userService.findAUserBasedOnId(id);
+		} catch (EmptyResultDataAccessException e) {
+			message.setMessage("User not Found");
+			message.setErrorcode(HttpStatus.OK.value());
+			message.setErrordesc(HttpStatus.OK);
+			return new ResponseEntity<ErrorMessage>(message, HttpStatus.OK);
+		}
+
+		int result = userService.deleteUserBasedOnId(id);
+
+		if (result == 1) {
+			message.setErrorcode(HttpStatus.OK.value());
+			message.setErrordesc(HttpStatus.OK);
+			return new ResponseEntity<ErrorMessage>(message, HttpStatus.OK);
+		}
+		message.setMessage("User was not deleted");
+		message.setErrorcode(HttpStatus.NOT_FOUND.value());
+		message.setErrordesc(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<ErrorMessage>(message, HttpStatus.OK);
 	}
 
 	public UserService getUserService() {
