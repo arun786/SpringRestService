@@ -6,6 +6,10 @@ public class ErrorMessage {
 	private int errorcode;
 	private HttpStatus errordesc;
 	private String message;
+	
+	public ErrorMessage() {
+		super();
+	}
 
 	public ErrorMessage(String message) {
 		super();

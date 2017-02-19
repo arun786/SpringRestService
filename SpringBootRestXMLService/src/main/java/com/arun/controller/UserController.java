@@ -71,11 +71,14 @@ public class UserController {
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/user/", method = RequestMethod.POST)
+	@RequestMapping(value = "/user/", method = RequestMethod.PUT)
 	public ResponseEntity<?> createAUser(@RequestBody User user) {
 		String response = userService.createAUser(user);
 		if (response.equals("yes")) {
-			return new ResponseEntity<ErrorMessage>(new ErrorMessage("User Created"), HttpStatus.OK);
+			ErrorMessage errorMessage = new ErrorMessage("User Created");
+			errorMessage.setErrorcode(HttpStatus.OK.value());
+			errorMessage.setErrordesc(HttpStatus.OK);
+			return new ResponseEntity<ErrorMessage>(errorMessage, HttpStatus.OK);
 		}
 		return new ResponseEntity<ErrorMessage>(new ErrorMessage("Unable to create a user"), HttpStatus.CONFLICT);
 	}
