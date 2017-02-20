@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -42,13 +41,21 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/user/{name}", method = RequestMethod.GET)
-	public ResponseEntity<Response> findAUser(@PathVariable("name") String name) {
+	public ResponseEntity<?> findAUser(@PathVariable("name") String name) {
 		Response response = new Response();
 		List<User> user = userService.findAUser(name);
-		response.setUsers(user);
-		response.setErrorcode(HttpStatus.OK.value());
-		response.setErrordesc(HttpStatus.OK);
-		return new ResponseEntity<Response>(response, HttpStatus.OK);
+		if (!user.isEmpty()) {
+			response.setUsers(user);
+			response.setErrorcode(HttpStatus.OK.value());
+			response.setErrordesc(HttpStatus.OK);
+			return new ResponseEntity<Response>(response, HttpStatus.OK);
+		} else {
+			ErrorMessage message = new ErrorMessage();
+			message.setMessage("No users found");
+			message.setErrorcode(HttpStatus.NO_CONTENT.value());
+			message.setErrordesc(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<ErrorMessage>(message, HttpStatus.OK);
+		}
 	}
 
 	@RequestMapping(value = "/user/id/{id}", method = RequestMethod.GET)
@@ -94,7 +101,7 @@ public class UserController {
 			header.setLocation(ucBuilder.path("/user/{name}").buildAndExpand(user.getName()).toUri());
 			return new ResponseEntity<String>(header, HttpStatus.OK);
 		}
-		return new ResponseEntity<ErrorMessage>(new ErrorMessage("Unable to create a user"), HttpStatus.CONFLICT);
+		return new ResponseEntity<ErrorMessage>(new ErrorMessage("Unable to create a user"), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/user/update/{id}", method = RequestMethod.POST)
@@ -138,6 +145,29 @@ public class UserController {
 		message.setErrorcode(HttpStatus.NOT_FOUND.value());
 		message.setErrordesc(HttpStatus.NOT_FOUND);
 		return new ResponseEntity<ErrorMessage>(message, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/delete/name/{name}", method = RequestMethod.DELETE)
+	public ResponseEntity<?> deleteUserBasedOnName(@PathVariable("name") String name) {
+		ErrorMessage message = new ErrorMessage();
+		List<User> user = new ArrayList<>();
+		user = userService.findAUser(name);
+
+		if (!user.isEmpty()) {
+			int result = userService.deleteUserBasedOnName(name);
+			System.out.println("result " + result);
+			if (result >= 1) {
+				message.setMessage(user.size() + " users deleted with the name " + name);
+				message.setErrorcode(HttpStatus.OK.value());
+				message.setErrordesc(HttpStatus.OK);
+				return new ResponseEntity<ErrorMessage>(message, HttpStatus.OK);
+			}
+		}
+		message.setMessage("User not Found");
+		message.setErrorcode(HttpStatus.OK.value());
+		message.setErrordesc(HttpStatus.OK);
+		return new ResponseEntity<ErrorMessage>(message, HttpStatus.OK);
+
 	}
 
 	public UserService getUserService() {
